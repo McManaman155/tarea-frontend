@@ -26,7 +26,7 @@ export default function Entregar() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl">
-        <h1 className="text-2xl font-bold mb-6">📝 Entrega de tarea: Cambio climático</h1>
+        <h1 className="text-2xl font-bold mb-6">📝 Entrega de tarea</h1>
         {!isSubmitted ? (
           <div className="flex flex-col gap-4">
             <input
@@ -37,8 +37,8 @@ export default function Entregar() {
               onChange={(e) => setStudentName(e.target.value)}
             />
             <textarea
-              placeholder="Escribe aquí tu redacción..."
-              className="p-3 min-h-[200px] border border-gray-300 rounded-xl"
+              placeholder="Escribe aquí tu tarea..."
+              className="p-3 min-h-[400px] border border-gray-300 rounded-xl"
               value={submittedText}
               onChange={(e) => setSubmittedText(e.target.value)}
             />

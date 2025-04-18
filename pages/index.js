@@ -1,14 +1,25 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export default function Home() {
   const router = useRouter();
+  const [password, setPassword] = useState('');
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
 
   const goToEntrega = () => {
     router.push('/entregar');
   };
 
-  const goToProfesor = () => {
-    router.push('/profesor');
+  const handleProfesorAccess = () => {
+    setShowPasswordInput(true);
+  };
+
+  const checkPassword = () => {
+    if (password === "profesorCREAL") {
+      router.push('/profesor');
+    } else {
+      alert("❌ Contraseña incorrecta");
+    }
   };
 
   return (
@@ -22,12 +33,31 @@ export default function Home() {
           >
             📝 Entregar tarea
           </button>
-          <button
-            onClick={goToProfesor}
-            className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-xl font-semibold rounded-xl transition"
-          >
-            👨‍🏫 Área del profesor
-          </button>
+
+          {!showPasswordInput ? (
+            <button
+              onClick={handleProfesorAccess}
+              className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-xl font-semibold rounded-xl transition"
+            >
+              👨‍🏫 Área del profesor
+            </button>
+          ) : (
+            <div className="flex flex-col gap-4">
+              <input
+                type="password"
+                placeholder="Introduce contraseña"
+                className="p-3 border border-gray-300 rounded-xl"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                onClick={checkPassword}
+                className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold"
+              >
+                Entrar
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
