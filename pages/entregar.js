@@ -37,11 +37,12 @@ export default function Entregar() {
               onChange={(e) => setStudentName(e.target.value)}
             />
             <textarea
-              placeholder="Escribe aquí tu tarea..."
-              className="p-3 min-h-[800px] border border-gray-300 rounded-xl"
-              value={submittedText}
-              onChange={(e) => setSubmittedText(e.target.value)}
-            />
+  placeholder="Escribe aquí tu tarea..."
+  className="p-3 border border-gray-300 rounded-xl w-full"
+  style={{ minHeight: "800px" }}
+  value={submittedText}
+  onChange={(e) => setSubmittedText(e.target.value)}
+/>
             <button
               onClick={handleSubmit}
               className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl"
