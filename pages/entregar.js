@@ -2,11 +2,13 @@ import { useState } from "react";
 
 export default function Entregar() {
   const [studentName, setStudentName] = useState('');
+  const [selectedCurso, setSelectedCurso] = useState('');
+  const [selectedGrupo, setSelectedGrupo] = useState('');
   const [submittedText, setSubmittedText] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async () => {
-    if (studentName.trim() && submittedText.trim()) {
+    if (studentName.trim() && selectedCurso && selectedGrupo && submittedText.trim()) {
       try {
         await fetch('/api/submit', {
           method: 'POST',
@@ -15,6 +17,8 @@ export default function Entregar() {
           },
           body: JSON.stringify({
             name: studentName,
+            curso: selectedCurso,
+            grupo: selectedGrupo,
             text: submittedText
           })
         });
@@ -24,7 +28,7 @@ export default function Entregar() {
         alert("❌ Hubo un error al enviar la tarea. Inténtalo de nuevo.");
       }
     } else {
-      alert("⚠️ Por favor, escribe tu nombre y tu redacción antes de enviar.");
+      alert("⚠️ Por favor, completa todos los campos antes de enviar.");
     }
   };
 
@@ -42,13 +46,44 @@ export default function Entregar() {
               value={studentName}
               onChange={(e) => setStudentName(e.target.value)}
             />
+
+            <select
+              className="p-3 border border-gray-300 rounded-xl"
+              value={selectedCurso}
+              onChange={(e) => setSelectedCurso(e.target.value)}
+            >
+              <option value="">Elige tu curso</option>
+              <option value="1ºESO">1ºESO</option>
+              <option value="2ºESO">2ºESO</option>
+              <option value="3ºESO">3ºESO</option>
+              <option value="4ºESO">4ºESO</option>
+              <option value="1ºDIVER">1ºDIVER</option>
+              <option value="2ºDIVER">2ºDIVER</option>
+              <option value="1ºBACH">1ºBACH</option>
+              <option value="2ºBACH">2ºBACH</option>
+            </select>
+
+            <select
+              className="p-3 border border-gray-300 rounded-xl"
+              value={selectedGrupo}
+              onChange={(e) => setSelectedGrupo(e.target.value)}
+            >
+              <option value="">Elige tu grupo</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+            </select>
+
             <textarea
               placeholder="Escribe aquí tu tarea..."
               className="p-3 border border-gray-300 rounded-xl"
-              style={{ minHeight: "800px", width: "400px" }}
+              style={{ minHeight: "400px", width: "400px" }}
               value={submittedText}
               onChange={(e) => setSubmittedText(e.target.value)}
             />
+
             <button
               onClick={handleSubmit}
               className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl"
@@ -65,5 +100,6 @@ export default function Entregar() {
     </div>
   );
 }
+
 
 
