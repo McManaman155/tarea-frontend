@@ -2,13 +2,13 @@ import { useState } from "react";
 
 export default function Entregar() {
   const [studentName, setStudentName] = useState('');
-  const [selectedCurso, setSelectedCurso] = useState('');
-  const [selectedGrupo, setSelectedGrupo] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState('');
   const [submittedText, setSubmittedText] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async () => {
-    if (studentName.trim() && selectedCurso && selectedGrupo && submittedText.trim()) {
+    if (studentName.trim() && selectedCourse && selectedGroup && submittedText.trim()) {
       try {
         await fetch('/api/submit', {
           method: 'POST',
@@ -17,8 +17,8 @@ export default function Entregar() {
           },
           body: JSON.stringify({
             name: studentName,
-            curso: selectedCurso,
-            grupo: selectedGrupo,
+            course: selectedCourse,
+            group: selectedGroup,
             text: submittedText
           })
         });
@@ -49,8 +49,8 @@ export default function Entregar() {
 
             <select
               className="p-3 border border-gray-300 rounded-xl"
-              value={selectedCurso}
-              onChange={(e) => setSelectedCurso(e.target.value)}
+              value={selectedCourse}
+              onChange={(e) => setSelectedCourse(e.target.value)}
             >
               <option value="">Elige tu curso</option>
               <option value="1ºESO">1ºESO</option>
@@ -65,8 +65,8 @@ export default function Entregar() {
 
             <select
               className="p-3 border border-gray-300 rounded-xl"
-              value={selectedGrupo}
-              onChange={(e) => setSelectedGrupo(e.target.value)}
+              value={selectedGroup}
+              onChange={(e) => setSelectedGroup(e.target.value)}
             >
               <option value="">Elige tu grupo</option>
               <option value="A">A</option>
@@ -100,6 +100,7 @@ export default function Entregar() {
     </div>
   );
 }
+
 
 
 
