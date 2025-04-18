@@ -6,6 +6,11 @@ export default function Profesor() {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Estados para filtros
+  const [filterCourse, setFilterCourse] = useState('');
+  const [filterGroup, setFilterGroup] = useState('');
+  const [filterDate, setFilterDate] = useState('');
+
   const fetchSubmissions = async () => {
     setLoading(true);
     try {
@@ -56,7 +61,7 @@ export default function Profesor() {
     }
 
     const headers = ['Nombre', 'Curso', 'Grupo', 'Redacción', 'Comentario', 'Estado'];
-    const rows = submissions.map(submission => [
+    const filteredRows = filteredSubmissions.map(submission => [
       submission.name,
       submission.course,
       submission.group,
@@ -66,16 +71,24 @@ export default function Profesor() {
     ]);
 
     let csvContent = "data:text/csv;charset=utf-8," 
-      + [headers.join(','), ...rows.map(e => e.map(x => `"${(x || '').replace(/"/g, '""')}"`).join(','))].join('\n');
+      + [headers.join(','), ...filteredRows.map(e => e.map(x => `"${(x || '').replace(/"/g, '""')}"`).join(','))].join('\n');
 
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'entregas_alumnos.csv');
+    link.setAttribute('download', 'entregas_filtradas.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
+
+  // Filtro en tiempo real
+  const filteredSubmissions = submissions.filter(submission => {
+    const matchesCourse = filterCourse ? submission.course === filterCourse : true;
+    const matchesGroup = filterGroup ? submission.group === filterGroup : true;
+    const matchesDate = filterDate ? submission.date && submission.date.startsWith(filterDate) : true;
+    return matchesCourse && matchesGroup && matchesDate;
+  });
 
   if (!accessGranted) {
     return (
@@ -105,10 +118,50 @@ export default function Profesor() {
       <div className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-7xl">
         <h1 className="text-3xl font-bold mb-8 text-center">📚 Revisión de entregas</h1>
 
+        {/* Filtros */}
+        <div className="flex flex-wrap justify-center gap-4 mb-6">
+          <select
+            className="p-3 border border-gray-300 rounded-xl"
+            value={filterCourse}
+            onChange={(e) => setFilterCourse(e.target.value)}
+          >
+            <option value="">Todos los cursos</option>
+            <option value="1ºESO">1ºESO</option>
+            <option value="2ºESO">2ºESO</option>
+            <option value="3ºESO">3ºESO</option>
+            <option value="4ºESO">4ºESO</option>
+            <option value="1ºDIVER">1ºDIVER</option>
+            <option value="2ºDIVER">2ºDIVER</option>
+            <option value="1ºBACH">1ºBACH</option>
+            <option value="2ºBACH">2ºBACH</option>
+          </select>
+
+          <select
+            className="p-3 border border-gray-300 rounded-xl"
+            value={filterGroup}
+            onChange={(e) => setFilterGroup(e.target.value)}
+          >
+            <option value="">Todos los grupos</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+          </select>
+
+          <input
+            type="date"
+            className="p-3 border border-gray-300 rounded-xl"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+          />
+        </div>
+
+        {/* Tabla */}
         {loading ? (
           <div className="text-center text-gray-500">Cargando entregas...</div>
-        ) : submissions.length === 0 ? (
-          <div className="text-center text-gray-500">No hay entregas todavía.</div>
+        ) : filteredSubmissions.length === 0 ? (
+          <div className="text-center text-gray-500">No hay entregas para los filtros seleccionados.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="table-auto w-full text-sm">
@@ -123,7 +176,7 @@ export default function Profesor() {
                 </tr>
               </thead>
               <tbody>
-                {submissions.map((submission, index) => (
+                {filteredSubmissions.map((submission, index) => (
                   <tr key={submission.id || index} className="border-b">
                     <td className="p-2">{submission.name}</td>
                     <td className="p-2">{submission.course}</td>
@@ -162,6 +215,7 @@ export default function Profesor() {
           </div>
         )}
 
+        {/* Botones */}
         <div className="flex justify-center mt-6 gap-4">
           <button
             onClick={handleSave}
@@ -181,5 +235,3 @@ export default function Profesor() {
     </div>
   );
 }
-
-
