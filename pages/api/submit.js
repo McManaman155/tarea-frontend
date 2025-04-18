@@ -9,20 +9,22 @@ export default async function handler(req, res) {
   const { name, curso, grupo, text } = req.body;
 
   if (!name || !curso || !grupo || !text) {
-    return res.status(400).json({ error: 'Faltan datos en la entrega' });
+    return res.status(400).json({ error: 'Faltan datos: nombre, curso, grupo o texto' });
   }
 
-  const { data, error } = await supabase.from('submissions').insert([
-    {
-      name,
-      curso,
-      grupo,
-      text,
-      date: new Date().toISOString(),
-      status: 'Pendiente',
-      comment: ''
-    }
-  ]);
+  const { data, error } = await supabase
+    .from('submissions')
+    .insert([
+      {
+        name: name,
+        curso: curso,
+        grupo: grupo,
+        text: text,
+        date: new Date().toISOString(),
+        status: 'Pendiente',
+        comment: ''
+      }
+    ]);
 
   if (error) {
     console.error('💥 Error al insertar en Supabase:', error);
@@ -31,6 +33,7 @@ export default async function handler(req, res) {
 
   return res.status(200).json({ message: 'Entrega recibida correctamente', data });
 }
+
 
 
 
