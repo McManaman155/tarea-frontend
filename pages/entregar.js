@@ -7,7 +7,7 @@ export default function Entregar() {
 
   const handleSubmit = async () => {
     if (studentName.trim() && submittedText.trim()) {
-      await fetch('https://tarea-backend-production.up.railway.app/submit', {
+      await fetch('https://tarea-backend.onrender.com/submit', { ...
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
