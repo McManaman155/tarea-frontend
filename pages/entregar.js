@@ -8,7 +8,7 @@ export default function Entregar() {
   const handleSubmit = async () => {
     if (studentName.trim() && submittedText.trim()) {
       try {
-        await fetch('https://tarea-backend.onrender.com/submit', {
+        await fetch('/api/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -65,4 +65,5 @@ export default function Entregar() {
     </div>
   );
 }
+
 
