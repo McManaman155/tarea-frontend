@@ -49,6 +49,34 @@ export default function Profesor() {
     }
   };
 
+  const handleDownloadCSV = () => {
+    if (submissions.length === 0) {
+      alert("⚠️ No hay entregas para exportar.");
+      return;
+    }
+
+    const headers = ['Nombre', 'Curso', 'Grupo', 'Redacción', 'Comentario', 'Estado'];
+    const rows = submissions.map(submission => [
+      submission.name,
+      submission.course,
+      submission.group,
+      submission.text,
+      submission.comment || '',
+      submission.status
+    ]);
+
+    let csvContent = "data:text/csv;charset=utf-8," 
+      + [headers.join(','), ...rows.map(e => e.map(x => `"${(x || '').replace(/"/g, '""')}"`).join(','))].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'entregas_alumnos.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (!accessGranted) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
@@ -96,10 +124,10 @@ export default function Profesor() {
               </thead>
               <tbody>
                 {submissions.map((submission, index) => (
-                  <tr key={submission.id} className="border-b">
+                  <tr key={submission.id || index} className="border-b">
                     <td className="p-2">{submission.name}</td>
-                    <td className="p-2">{submission.curso}</td>
-                    <td className="p-2">{submission.grupo}</td>
+                    <td className="p-2">{submission.course}</td>
+                    <td className="p-2">{submission.group}</td>
                     <td className="p-2">{submission.text}</td>
                     <td className="p-2">
                       <input
@@ -134,16 +162,24 @@ export default function Profesor() {
           </div>
         )}
 
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-6 gap-4">
           <button
             onClick={handleSave}
             className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl"
           >
             💾 Guardar cambios
           </button>
+
+          <button
+            onClick={handleDownloadCSV}
+            className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl"
+          >
+            📥 Descargar CSV
+          </button>
         </div>
       </div>
     </div>
   );
 }
+
 
