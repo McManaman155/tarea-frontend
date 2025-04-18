@@ -38,7 +38,7 @@ export default function Entregar() {
             />
             <textarea
               placeholder="Escribe aquí tu tarea..."
-              className="p-3 min-h-[400px] border border-gray-300 rounded-xl"
+              className="p-3 min-h-[800px] border border-gray-300 rounded-xl"
               value={submittedText}
               onChange={(e) => setSubmittedText(e.target.value)}
             />
