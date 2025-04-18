@@ -8,7 +8,10 @@ export default async function handler(req, res) {
 
   const { name, curso, grupo, text } = req.body;
 
+  console.log('📥 Datos recibidos en API submit:', { name, curso, grupo, text });
+
   if (!name || !curso || !grupo || !text) {
+    console.log('❌ Faltan campos en el body');
     return res.status(400).json({ error: 'Faltan datos: nombre, curso, grupo o texto' });
   }
 
@@ -17,8 +20,8 @@ export default async function handler(req, res) {
     .insert([
       {
         name: name,
-        curso: curso,
-        grupo: grupo,
+        course: curso,
+        group: grupo,
         text: text,
         date: new Date().toISOString(),
         status: 'Pendiente',
@@ -27,12 +30,15 @@ export default async function handler(req, res) {
     ]);
 
   if (error) {
-    console.error('💥 Error al insertar en Supabase:', error);
-    return res.status(500).json({ error: 'Error al guardar la entrega', details: error.message });
+    console.error('💥 Error REAL al insertar en Supabase:', error);
+    return res.status(500).json({ error: 'Error al guardar en la base de datos', details: error.message });
   }
+
+  console.log('✅ Inserción correcta en Supabase:', data);
 
   return res.status(200).json({ message: 'Entrega recibida correctamente', data });
 }
+
 
 
 
