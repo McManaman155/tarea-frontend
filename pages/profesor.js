@@ -6,7 +6,7 @@ export default function Profesor() {
 
   useEffect(() => {
     async function fetchSubmissions() {
-      const response = await fetch("https://tarea-backend-production.up.railway.app/submissions");
+      const response = await fetch("https://tarea-backend.onrender.com/submissions");
       const data = await response.json();
       setSubmissions(
         data.map((item) => ({
@@ -32,7 +32,7 @@ export default function Profesor() {
   };
 
   const handleSave = async () => {
-    await fetch("https://tarea-backend-production.up.railway.app/save", {
+    await fetch("https://tarea-backend.onrender.com/save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export default function Profesor() {
     alert("✅ Cambios guardados correctamente");
   };
 
-  const filteredSubmissions = submissions.filter(submission => {
+  const filteredSubmissions = submissions.filter((submission) => {
     if (filter === "Todas") return true;
     return submission.status === filter;
   });
@@ -50,7 +50,7 @@ export default function Profesor() {
   const downloadCSV = () => {
     const csvRows = [
       ["Alumno", "Texto", "Fecha", "Estado", "Comentario"],
-      ...submissions.map(sub => [
+      ...submissions.map((sub) => [
         `"${sub.name}"`,
         `"${sub.text.replace(/"/g, '""')}"`,
         `"${new Date(sub.date).toLocaleString()}"`,
@@ -59,7 +59,7 @@ export default function Profesor() {
       ])
     ];
 
-    const csvContent = csvRows.map(e => e.join(",")).join("\n");
+    const csvContent = csvRows.map((e) => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
 
@@ -133,7 +133,7 @@ export default function Profesor() {
                   <input
                     type="text"
                     className="w-full border rounded p-1"
-                    placeholder="Escribe tu comentario..."
+                    placeholder="Comentario..."
                     value={submission.comment}
                     onChange={(e) => handleCommentChange(index, e.target.value)}
                   />
