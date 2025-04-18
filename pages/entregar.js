@@ -38,8 +38,8 @@ export default function Entregar() {
             />
             <textarea
   placeholder="Escribe aquí tu tarea..."
-  className="p-3 border border-gray-300 rounded-xl w-full"
-  style={{ minHeight: "800px" }}
+  className="p-3 border border-gray-300 rounded-xl"
+  style={{ minHeight: "400px", width: "400px" }}
   value={submittedText}
   onChange={(e) => setSubmittedText(e.target.value)}
 />
