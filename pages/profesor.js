@@ -94,7 +94,7 @@ export default function Profesor() {
               </thead>
               <tbody>
                 {submissions.map((submission, index) => (
-                  <tr key={index} className="border-b">
+                  <tr key={submission.id} className="border-b">
                     <td className="p-2">{submission.name}</td>
                     <td className="p-2">{submission.text}</td>
                     <td className="p-2">
@@ -140,3 +140,5 @@ export default function Profesor() {
         </div>
       </div>
     </div>
+  );
+}
