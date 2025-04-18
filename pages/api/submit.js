@@ -6,16 +6,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: `Método ${req.method} no permitido` });
   }
 
-  const { name, text } = req.body;
+  const { name, curso, grupo, text } = req.body;
 
-  if (!name || !text) {
-    return res.status(400).json({ error: 'Nombre o texto faltan' });
+  if (!name || !curso || !grupo || !text) {
+    return res.status(400).json({ error: 'Faltan datos en la entrega' });
   }
 
   const { data, error } = await supabase.from('submissions').insert([
     {
-      name: name,
-      text: text,
+      name,
+      curso,
+      grupo,
+      text,
       date: new Date().toISOString(),
       status: 'Pendiente',
       comment: ''
@@ -29,6 +31,7 @@ export default async function handler(req, res) {
 
   return res.status(200).json({ message: 'Entrega recibida correctamente', data });
 }
+
 
 
 

@@ -74,7 +74,7 @@ export default function Profesor() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-6xl">
+      <div className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-7xl">
         <h1 className="text-3xl font-bold mb-8 text-center">📚 Revisión de entregas</h1>
 
         {loading ? (
@@ -87,6 +87,8 @@ export default function Profesor() {
               <thead>
                 <tr className="bg-gray-200">
                   <th className="p-2">Nombre</th>
+                  <th className="p-2">Curso</th>
+                  <th className="p-2">Grupo</th>
                   <th className="p-2">Redacción</th>
                   <th className="p-2">Comentario</th>
                   <th className="p-2">Estado</th>
@@ -96,6 +98,8 @@ export default function Profesor() {
                 {submissions.map((submission, index) => (
                   <tr key={submission.id} className="border-b">
                     <td className="p-2">{submission.name}</td>
+                    <td className="p-2">{submission.curso}</td>
+                    <td className="p-2">{submission.grupo}</td>
                     <td className="p-2">{submission.text}</td>
                     <td className="p-2">
                       <input
@@ -142,3 +146,4 @@ export default function Profesor() {
     </div>
   );
 }
+
